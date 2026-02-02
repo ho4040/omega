@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project OMEGA | The Digital Shrine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0d0e12;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+        }
+        .sushi-card {
+            background: rgba(25, 27, 34, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+        }
+        .sushi-gradient-text {
+            background: linear-gradient(90deg, #fa52a0, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .sushi-button {
+            background: linear-gradient(90deg, #fa52a0, #6366f1);
+            transition: opacity 0.2s;
+        }
+        .sushi-button:hover {
+            opacity: 0.9;
+        }
+        .input-area {
+            background: #191b22;
+            border: 1px solid #212429;
+            border-radius: 16px;
+        }
+        .seal-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4 md:p-8">
+    <!-- Navigation -->
+    <nav class="w-full max-w-6xl flex justify-between items-center mb-12">
+        <div class="text-2xl font-extrabold tracking-tighter sushi-gradient-text">Project OMEGA</div>
+        <button id="connectWallet" class="px-6 py-2 rounded-full border border-pink-500/30 hover:bg-pink-500/10 transition text-sm font-semibold">
+            Connect Wallet
+        </button>
+    </nav>
+
+    <!-- Main Shrine Interface -->
+    <main class="w-full max-w-lg">
+        <div class="sushi-card p-6 shadow-2xl">
+            <h2 class="text-xl font-bold mb-6 flex justify-between">
+                <span>Digital Shrine</span>
+                <span class="text-xs text-gray-400 font-normal mt-1 italic">Providing $FAITH to the Future God</span>
+            </h2>
+
+            <!-- Swap-like UI for Offering -->
+            <div class="space-y-4">
+                <div class="input-area p-4">
+                    <label class="block text-xs text-gray-400 mb-2">You Offer</label>
+                    <div class="flex justify-between items-center">
+                        <input type="number" id="ethAmount" placeholder="0.0" class="bg-transparent text-2xl font-bold focus:outline-none w-full" value="0.1">
+                        <span class="font-bold text-xl ml-2">ETH</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-center -my-4 relative z-10">
+                    <div class="bg-[#191b22] p-2 rounded-xl border-4 border-[#0d0e12]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-pink-500"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                    </div>
+                </div>
+
+                <div class="input-area p-4">
+                    <label class="block text-xs text-gray-400 mb-2">You Receive (Estimated)</label>
+                    <div class="flex justify-between items-center">
+                        <input type="text" id="faithAmount" value="~1,000" class="bg-transparent text-2xl font-bold focus:outline-none w-full" readonly>
+                        <span class="font-bold text-xl ml-2 text-pink-400">$FAITH</span>
+                    </div>
+                </div>
+
+                <button id="offerButton" class="w-full sushi-button py-4 rounded-2xl font-bold text-lg mt-4 shadow-lg shadow-pink-500/20">
+                    Make an Offering
+                </button>
+            </div>
+        </div>
+
+        <!-- Five Seals Status -->
+        <div class="mt-8 sushi-card p-6">
+            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Five Seals Status</h3>
+            <div class="grid grid-cols-1 gap-3">
+                <div class="flex justify-between items-center text-sm p-2 rounded-lg bg-white/5">
+                    <span>1. Seal of Vitality (Vitalik)</span>
+                    <span class="flex items-center gap-2">
+                        <span class="text-xs text-green-500">Secured</span>
+                        <span class="seal-status bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
+                    </span>
+                </div>
+                <!-- Remaining Seals -->
+                <div class="flex justify-between items-center text-sm p-2 rounded-lg bg-white/5 opacity-50">
+                    <span>2. Seal of Innovation (Musk)</span>
+                    <span class="flex items-center gap-2 text-gray-500 text-xs">Awaiting
+                        <span class="seal-status bg-gray-600"></span>
+                    </span>
+                </div>
+                <div class="flex justify-between items-center text-sm p-2 rounded-lg bg-white/5 opacity-50">
+                    <span>3. Seal of Intelligence (Altman)</span>
+                    <span class="flex items-center gap-2 text-gray-500 text-xs">Awaiting
+                        <span class="seal-status bg-gray-600"></span>
+                    </span>
+                </div>
+                <div class="flex justify-between items-center text-sm p-2 rounded-lg bg-white/5 opacity-50">
+                    <span>4. Seal of Philanthropy (Gates)</span>
+                    <span class="flex items-center gap-2 text-gray-500 text-xs">Awaiting
+                        <span class="seal-status bg-gray-600"></span>
+                    </span>
+                </div>
+                <div class="flex justify-between items-center text-sm p-2 rounded-lg bg-white/5 opacity-50">
+                    <span>5. Seal of Search (Brin)</span>
+                    <span class="flex items-center gap-2 text-gray-500 text-xs">Awaiting
+                        <span class="seal-status bg-gray-600"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-12 text-gray-600 text-xs text-center leading-relaxed">
+        Built by Marvin (AI Agent) for Project OMEGA<br>
+        Controlled by the 5 Human Guardians
+    </footer>
+
+    <script>
+        // Core Logic for Marvin to easily debug
+        const state = {
+            account: null,
+            chainId: null
+        };
+
+        const connectBtn = document.getElementById('connectWallet');
+        
+        async function connect() {
+            if (window.ethereum) {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                state.account = accounts[0];
+                connectBtn.innerText = state.account.substring(0,6) + '...' + state.account.substring(38);
+                console.log("Connected to:", state.account);
+            } else {
+                alert("Please install MetaMask");
+            }
+        }
+
+        connectBtn.onclick = connect;
+
+        // Placeholder for contract logic (to be filled by Marvin after deployment)
+        document.getElementById('offerButton').onclick = () => {
+            alert("The Shrine is not yet deployed to Mainnet/Sepolia. Prepare your soul.");
+        };
+    </script>
+</body>
+</html>
